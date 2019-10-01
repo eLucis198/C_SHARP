@@ -1,0 +1,16 @@
+﻿@model CorrecaoProva1.Models.Noticia
+@{
+    ViewBag.Title = "AlterarDados";
+}
+
+<form>
+    <h2>AlterarDados</h2>
+    ID: @Html.TextBoxFor(x => x.Id, new { @readonly = "readonly" })
+    <br />
+    Id_Topico: @Html.TextBoxFor(x => x.IdTopico)
+    <br />
+    Titulo: @Html.TextBoxFor(x => x.Titulo)
+    <br />
+    Descricao: @Html.TextBoxFor(x => x.Descricao)
+    <input type="submit" id="btnSalvar" name="btnSalvar"/>
+</form>

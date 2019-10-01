@@ -1,0 +1,43 @@
+﻿@model _1_Valdney.Models.Vendedor
+
+@{
+    ViewBag.Title = "Insert Vendedor";
+}
+
+<h2>Insert</h2>
+
+<div class="container-fluid">
+    @using (Html.BeginForm("Insert", "Vendedor", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            @Html.ValidationSummary(true)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Nome)
+            @Html.TextBoxFor(x => x.Nome, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.SalarioFixo, "Salário Fixo")
+            @Html.TextBoxFor(x => x.SalarioFixo, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.FaixaComissao, "Faixa de Comissão")
+            @Html.TextBoxFor(x => x.FaixaComissao, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Sexo)
+            @Html.TextBoxFor(x => x.Sexo, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Email)
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Senha)
+            @Html.TextBoxFor(x => x.Senha, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.TextBox("btnInsert", "INSERT", new { type = "submit", @class = "btn btn-primary" })
+        </div>
+    }
+</div>

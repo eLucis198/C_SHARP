@@ -1,0 +1,54 @@
+﻿@model ProvaBimestral.Models.Produto
+@{
+    ViewBag.Title = "Dados";
+}
+
+<h2>Dados do produto</h2>
+
+<table border="1">
+    <tr>
+        <td>ID</td>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <td>Nome do Produto</td>
+        <td>@Model.Nome</td>
+    </tr>
+    <tr>
+        <td>Preço</td>
+        <td>@Model.Preco</td>
+    </tr>
+    <tr>
+        <td>Descrição</td>
+        <td>@Model.Descricao</td>
+    </tr>
+    <tr>
+        <td>Marca</td>
+        <td>@Model.Marca</td>
+    </tr>
+    <tr>
+        <td>Modelo</td>
+        <td>@Model.Modelo</td>
+    </tr>
+</table>
+
+@{
+    if (Session["Logado"].Equals("admin"))
+    {
+        @section footer{
+            @Html.Partial("_FooterAdmin")
+        }
+        @section header{
+            @Html.Partial("_HeaderAdmin")
+        }
+        @section sidebar{
+            @Html.Partial("_SidebarAdmin")
+        }
+    }
+    if (Session["Logado"].Equals("usuario"))
+    {
+        @section footer{
+            @Html.Partial("_FooterDados")
+        }
+    }
+}

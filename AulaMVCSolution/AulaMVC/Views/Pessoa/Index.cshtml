@@ -1,0 +1,19 @@
+﻿@model AulaMVC.Models.Pessoa
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Dados da Pessoa 1</h2>
+<p>ID: @ViewData["IdPessoa"]</p>
+<p>NOME: @ViewData["Nome"]</p>
+<p>IDADE: @ViewData["Idade"]</p>
+
+<h2>Dados da Pessoa 2</h2>
+<p>ID: @ViewBag._IdPessoa</p>
+<p>NOME: @ViewBag._Nome</p>
+<p>IDADE: @ViewBag._Idade</p>
+
+<h2>Dados da Pessoa 3</h2>
+<p>ID: @Model.IdPessoa</p>
+<p>NOME: @Model.Nome</p>
+<p>IDADE: @Model.Idade</p>

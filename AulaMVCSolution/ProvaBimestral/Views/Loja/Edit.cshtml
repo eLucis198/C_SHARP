@@ -1,0 +1,67 @@
+﻿@model ProvaBimestral.Models.Produto
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editar produto</h2>
+
+@using (Html.BeginForm("Edit", "Loja", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        @Html.LabelFor(x => x.Id)
+        @Html.TextBoxFor(x => x.Id, new { @readonly = "readonly" })
+        @Html.ValidationMessageFor(x => x.Id)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.IdCategoria)
+        @Html.TextBoxFor(x => x.IdCategoria)
+        @Html.ValidationMessageFor(x => x.IdCategoria)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Nome)
+        @Html.TextBoxFor(x => x.Nome)
+        @Html.ValidationMessageFor(x => x.Nome)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Descricao)
+        @Html.TextBoxFor(x => x.Descricao)
+        @Html.ValidationMessageFor(x => x.Descricao)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Marca)
+        @Html.TextBoxFor(x => x.Marca)
+        @Html.ValidationMessageFor(x => x.Marca)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Modelo)
+        @Html.TextBoxFor(x => x.Modelo)
+        @Html.ValidationMessageFor(x => x.Modelo)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Preco)
+        @Html.TextBoxFor(x => x.Preco)
+        @Html.ValidationMessageFor(x => x.Preco)
+    </div>
+    <div>
+        @Html.TextBox("btnEdit", "Atualizar", new { type = "submit" })
+    </div>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval");
+}
+
+@{
+    if (Session["Logado"].Equals("admin"))
+    {
+        @section footer{
+            @Html.Partial("_FooterAdmin")
+        }
+        @section header{
+            @Html.Partial("_HeaderAdmin")
+        }
+        @section sidebar{
+            @Html.Partial("_SidebarAdmin")
+        }
+    }
+}

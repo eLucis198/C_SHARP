@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .validation-summary-errors {
+        color: red !important;
+    }
+</style>
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        @Html.ValidationSummary(true)
+    </div>
+    <div>
+        @Html.Label("lblLogin", "Login")
+        @Html.TextBox("txtLogin", (string)ViewBag.Login, new { type = "text" })
+    </div>
+    <div>
+        @Html.Label("lblSenha", "Senha")
+        @Html.TextBox("txtSenha", (string)ViewBag.Senha, new { type = "text" })
+    </div>
+    <div>
+        @Html.CheckBox("cbxLembrar")
+        @Html.Label("lblLembrar", "Lembrar-me")
+    </div>
+    <div>
+        @Html.TextBox("btnEntrar", "Entrar", new { type = "submit" })
+    </div>
+}

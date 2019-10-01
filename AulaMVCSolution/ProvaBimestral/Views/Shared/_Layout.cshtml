@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
+    <style>
+        .header_ {
+            margin-left: 160px;
+            font-size: 32px;
+            padding: 0px 10px;
+        }
+
+        .main_ {
+            margin-left: 160px;
+            padding: 0px 10px;
+        }
+
+        .footer_ {
+            margin-left: 160px;
+            font-size: 16px;
+            padding: 0px 10px;
+        }
+    </style>
+</head>
+<body>
+    @if (IsSectionDefined("sidebar"))
+    {
+        @RenderSection("sidebar")
+    }
+    else
+    {
+        @Html.Partial("_Sidebar")
+    }
+    <div class="header_">
+        @if (IsSectionDefined("header"))
+        {
+            @RenderSection("header")
+        }
+        else
+        {
+            @Html.Partial("_Header")
+        }
+        <hr />
+    </div>
+    <div class="main_">
+        @RenderBody()
+    </div>
+    <div class="footer_">
+        @if (IsSectionDefined("footer"))
+        {
+            @RenderSection("footer")
+        }
+        else
+        {
+            @Html.Partial("_Footer")
+        }
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

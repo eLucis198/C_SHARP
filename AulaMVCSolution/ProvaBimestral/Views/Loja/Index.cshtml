@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ProvaBimestral.Models.Produto>
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Index", "Loja", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    @Html.TextBox("btnSair", "Sair", new { type = "submit", @class = "btn btn-primary" })
+}
+
+<h2>Todos os produtos cadastrados</h2>
+
+<table border="1" , width="100%">
+    <tr>
+        <th>ID</th>
+        <th>Categoria</th>
+        <th>Nome</th>
+        <th>Descricao</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Preco</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            @if (item.IdCategoria == 1)
+            {
+                <td>Celular</td>
+            }
+            else if (item.IdCategoria == 2)
+            {
+                <td>Tablet</td>
+            }
+            else if (item.IdCategoria == 3)
+            {
+                <td>Notebook</td>
+            }
+            else if (item.IdCategoria == 4)
+            {
+                <td>Carregador</td>
+            }
+            <td>@item.Nome</td>
+            <td>@item.Descricao</td>
+            <td>@item.Marca</td>
+            <td>@item.Modelo</td>
+            <td>@item.Preco</td>
+            <td>@Html.ActionLink("Dados", "Dados", new { id = item.Id })</td>
+            @if (Session["Logado"].Equals("admin"))
+            {
+                <td>@Html.ActionLink("Editar", "Edit", new { id = item.Id })</td>
+                <td>@Html.ActionLink("Deletar", "Delete", new { id = item.Id })</td>
+            }
+        </tr>
+    }
+</table>
+
+
+@{
+    if (Session["Logado"].Equals("admin"))
+    {
+        @section footer{
+            @Html.Partial("_FooterAdmin")
+        }
+        @section header{
+            @Html.Partial("_HeaderAdmin")
+        }
+        @section sidebar{
+            @Html.Partial("_SidebarAdmin")
+        }
+    }
+}

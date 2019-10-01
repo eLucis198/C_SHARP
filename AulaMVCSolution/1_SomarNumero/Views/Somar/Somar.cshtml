@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Somar";
+}
+
+<h2>Somar</h2>
+
+<form action="Somar" method="post">
+    <input type="text" id="txtValor" name="txtValor" value="@ViewBag.Valor" />
+    <input type="submit" id="btnSomar" name="btnSomar" value="+" />
+    <input type="hidden" id="Total" name="Total" value="@ViewBag.Total"/>
+</form>
+
+@{
+    var Total = ViewBag.Total;
+    if (Total % 2 == 0)
+    {
+        <p style="color:green; font-size:64px">@ViewBag.Total # O Número é PAR</p>
+    }
+    else if (Total % 2 == 1 || Total % 2 == -1)
+    {
+        <p style="color:red; font-size:64px">@ViewBag.Total # O Número é ÍMPAR</p>
+    }
+}

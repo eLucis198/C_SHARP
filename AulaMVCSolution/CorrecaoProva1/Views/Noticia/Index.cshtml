@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CorrecaoProva1.Models.Noticia>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listagem de noticias</h2>
+
+@Html.ActionLink("Nova Noticia", "Create")
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>TIPO</th>
+        <th>TITULO</th>
+        <th>DESCRIÇÃO</th>
+        <th>edit</th>
+        <th>delete</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            @if (item.IdTopico == 1)
+            {
+                <td>Esporte</td>
+            }
+            else if(item.IdTopico == 2)
+            {
+                <td>Jornalismo</td>
+            }
+            <td>@item.Titulo</td>
+            <td>@item.Descricao</td>
+            <td>@Html.ActionLink("Editar", "Edit", new { id = item.Id })</td>
+            <td>@Html.ActionLink("Deletar", "Delete", new { id = item.Id })</td>
+        </tr>
+    }
+</table>
+
+@section rodape{
+    <p>Definido rodapé especifico</p>
+}

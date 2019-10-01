@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ProvaBimestral.Models.Produto>
+
+@{
+    ViewBag.Title = "Notebook";
+}
+
+<h2>Notebook</h2>
+
+<table border="1" , width="100%">
+    <tr>
+        <th>ID</th>
+        <th>Categoria</th>
+        <th>Nome</th>
+        <th>Descricao</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Preco</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        if (item.IdCategoria == 3)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>Notebook</td>
+                <td>@item.Nome</td>
+                <td>@item.Descricao</td>
+                <td>@item.Marca</td>
+                <td>@item.Modelo</td>
+                <td>@item.Preco</td>
+                <td>@Html.ActionLink("Dados", "Dados", new { id = item.Id })</td>
+                @if (Session["Logado"].Equals("admin"))
+                {
+                    <td>@Html.ActionLink("Editar", "Edit", new { id = item.Id })</td>
+                    <td>@Html.ActionLink("Deletar", "Delete", new { id = item.Id })</td>
+                }
+            </tr>
+        }
+    }
+</table>
+
+@{
+    if (Session["Logado"].Equals("admin"))
+    {
+        @section footer{
+            @Html.Partial("_FooterAdmin")
+        }
+        @section header{
+            @Html.Partial("_HeaderAdmin")
+        }
+        @section sidebar{
+            @Html.Partial("_SidebarAdmin")
+        }
+    }
+}

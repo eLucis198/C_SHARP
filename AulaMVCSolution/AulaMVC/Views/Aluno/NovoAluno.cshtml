@@ -1,0 +1,54 @@
+﻿@model AulaMVC.Models.Aluno
+@{
+    ViewBag.Title = "Novo Aluno";
+}
+
+<style>
+    /*.validation-summary-errors {
+        color:blue !important;
+    }*/
+    .minha_css {
+        color: red;
+    }
+</style>
+
+<h2>Novo Aluno</h2>
+
+@*
+    <form action="NovoAluno" method="post">
+        Nome
+        <input type="text" id="Nome" name="Nome" />
+        <br />
+        Idade
+        <input type="text" id="Idade" name="Idade"/>
+        <br />
+        Sexo
+        <input type="text" id="Sexo" name="Sexo" />
+        <br />
+        <input type="submit" id="btnSalvar" name="btnSalvar" value="SALVAR" />
+    </form>
+*@
+
+@using (Html.BeginForm("NovoAluno", "Aluno", FormMethod.Post))
+{
+    @Html.ValidationSummary(true, "", new { @class = "minha_css" })
+
+    @Html.LabelFor(x => x.Nome)
+    @Html.TextBoxFor(x => x.Nome)
+    <br />
+    @Html.LabelFor(x => x.Idade)
+    @Html.TextBoxFor(x => x.Idade)
+    <br />
+    @Html.LabelFor(x => x.Sexo)
+    @Html.TextBoxFor(x => x.Sexo)
+    @Html.ValidationMessageFor(x => x.Sexo)
+    <br />
+    @Html.LabelFor(x => x.Peso)
+    @Html.TextBoxFor(x => x.Peso)
+    @Html.ValidationMessageFor(x => x.Peso)
+
+    <br />
+    <input type="submit" id="btnSalvar" name="btnSalvar" value="SALVAR" />
+}
+
+
