@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_VeiculoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="ID_Pessoa" />
+    </Key>
+    <Property Name="ID_Pessoa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cpf" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Senha" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Telefone" Type="nvarchar" MaxLength="50" />
+    <Property Name="Ativo" Type="bit" />
+  </EntityType>
+  <EntityType Name="Veiculo">
+    <Key>
+      <PropertyRef Name="ID_Veiculo" />
+    </Key>
+    <Property Name="ID_Veiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Pessoa" Type="int" Nullable="false" />
+    <Property Name="Placa" Type="nvarchar" MaxLength="50" />
+    <Property Name="Montadora" Type="nvarchar" MaxLength="50" />
+    <Property Name="Modelo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Ano" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Veiculo__ID_Pess__398D8EEE">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="Veiculo" Type="Self.Veiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="ID_Pessoa" />
+      </Principal>
+      <Dependent Role="Veiculo">
+        <PropertyRef Name="ID_Pessoa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB_VeiculoModelStoreContainer">
+    <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Veiculo" EntityType="Self.Veiculo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Veiculo__ID_Pess__398D8EEE" Association="Self.FK__Veiculo__ID_Pess__398D8EEE">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Veiculo" EntitySet="Veiculo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

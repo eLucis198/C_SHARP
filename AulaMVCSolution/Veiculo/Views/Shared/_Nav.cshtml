@@ -1,0 +1,57 @@
+﻿<style>
+    .navT {
+        color: #9d9d9d;
+        background-color: #222;
+        border: 0px;
+        padding: 15px;
+    }
+
+    .navT:hover {
+        color: white;
+        font-weight: 600;
+    }
+</style>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Menu", "Index", "Regula", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">CLIENTE<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Importar", "Upload", "Cliente")</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">AGENDAMENTO CONSULTA<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Importar", "Upload", "AgendamentoConsulta")</li>
+                        <li>@Html.ActionLink("Consultar", "Consulta", "AgendamentoConsulta")</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">AGENDAMENTO PROCEDIMENTO<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Importar", "Upload", "AgendamentoProcedimento")</li>
+                        <li>@Html.ActionLink("Consultar", "Consulta", "AgendamentoProcedimento")</li>
+                    </ul>
+                </li>
+                <li>
+                    @using (Html.BeginForm("LogOff", "Regula", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.TextBox("btnLogOff", "SAIR", new { type = "submit", @class = "navT" })
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Create2";
+}
+
+<h2>Create2</h2>
+
+<form>
+    Nome: <input type="text" id="txtNome" name="txtNome" />
+    Sexo: <input type="text" id="txtSexo" name="txtSexo" />
+    <input type="button" id="btnSalvar" name="btnSalvar" value="Salvar" onclick="SalvarAluno()" />
+
+    <input type="button" id="btnNovaNota" name="btnNovaNota" value="Nova Nota" onclick="NovaNota()" />
+    <hr />
+
+    <div id="divNota" style="background-color:lightblue; padding:5px; display:none">
+        Nome Materia: <input type="text" id="txtNomeMateria" name="txtNomeMateria" />
+        <br />
+        Nota 1: <input type="text" id="txtNota1" name="txtNota1" />
+        Nota 2: <input type="text" id="txtNota2" name="txtNota2" />
+        Nota 3: <input type="text" id="txtNota3" name="txtNota3" />
+        Nota 4: <input type="text" id="txtNota4" name="txtNota4" />
+        <input type="button" id="btnAddMateria" name="btnAddMateria" value="Adicionar MAteria" onclick="AddMateriaSessao()" />
+    </div>
+
+    <div id="divListaNotas" style="background-color:lightcoral; padding:5px">
+        <table id="tblNotas">
+        </table>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        function SalvarAluno() {
+
+        }
+
+        function NovaNota() {
+            $('#divNota').show();
+        }
+
+        function mostraTabelaHtml(listaNotas) {
+            $('#tblNotas').html('');
+            for ($i = 0; $i < listaNotas.length; $i++) {
+                $("#tblNotas").append("<tr><td>" + listaNotas[$i].NomeMateria + "</td> <td>" + listaNotas[$i].NotaI + "</td> <td>" + listaNotas[$i].NotaII + "</td> <td>" + listaNotas[$i].NotaIII + "</td> <td>" + listaNotas[$i].NotaIIII + "</td> </tr>");
+            }
+        }
+
+        function AddMateriaSessao() {
+            $.ajax({
+                url: '@Url.Action("AddMateriaSessao")',
+                type: 'POST',
+                data: { txtNomeMateria: $('#txtNomeMateria').val(), txtNota1: $('#txtNota1').val(), txtNota2: $('#txtNota2').val(), txtNota3: $('#txtNota3').val(), txtNota4: $('#txtNota4').val() },
+                success: function (data) {
+                    alert('certo');
+                    mostraTabelaHtml(data.listaNotas);
+                    $('#divNota').hide();
+                },
+                error: function (data) {
+                    alert('erou');
+                }
+            });
+        }
+    </script>
+}

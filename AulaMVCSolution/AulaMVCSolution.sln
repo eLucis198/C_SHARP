@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorrecaoProva1", "CorrecaoP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaBimestral", "ProvaBimestral\ProvaBimestral.csproj", "{AD21306B-98F1-42BC-AEBC-E4E06ED5F080}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstudoProva1", "EstudoProva1\EstudoProva1.csproj", "{AA9C9980-5F6E-48DD-B773-54D9F249D4D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{AD21306B-98F1-42BC-AEBC-E4E06ED5F080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD21306B-98F1-42BC-AEBC-E4E06ED5F080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD21306B-98F1-42BC-AEBC-E4E06ED5F080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA9C9980-5F6E-48DD-B773-54D9F249D4D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA9C9980-5F6E-48DD-B773-54D9F249D4D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA9C9980-5F6E-48DD-B773-54D9F249D4D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA9C9980-5F6E-48DD-B773-54D9F249D4D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{061B8A01-DB1C-42C4-A430-6AAD562B0E4D} = {35CD8920-8F25-424A-A477-E40D30CF4D17}
 		{BF447BDF-7C21-473A-8E01-3646F6B528EF} = {35CD8920-8F25-424A-A477-E40D30CF4D17}
 		{AD21306B-98F1-42BC-AEBC-E4E06ED5F080} = {35CD8920-8F25-424A-A477-E40D30CF4D17}
+		{AA9C9980-5F6E-48DD-B773-54D9F249D4D7} = {35CD8920-8F25-424A-A477-E40D30CF4D17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66D7A02D-56AD-4020-B304-AB4B33C3A29B}

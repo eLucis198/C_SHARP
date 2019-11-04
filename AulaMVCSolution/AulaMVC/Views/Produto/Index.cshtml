@@ -1,0 +1,31 @@
+﻿@model List<AulaMVC.Models.Produto>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listagem de Produtos</h2>
+<br />
+@Html.ActionLink("Novo Produto", "Create")
+<br />
+<table width="100%" class="table table-bordered table-striped">
+    <tr>
+        <th>ID</th>
+        <th>DESCRICAO</th>
+        <th>QUANTIDADE</th>
+        <th>PRECO</th>
+    </tr>
+    @{
+        foreach (AulaMVC.Models.Produto item in Model)
+        {
+            <tr>
+                <td>@item.Id_Produto</td>
+                <td>@item.Descricao</td>
+                <td>@item.Quantidade</td>
+                <td>@item.Preco_Venda</td>
+                <td>@Html.ActionLink("Editar", "Edit", new { id = item.Id_Produto})</td>
+                <td>@Html.ActionLink("Deletar", "Delete", new { id = item.Id_Produto})</td>
+            </tr>
+        }
+    }
+
+</table>

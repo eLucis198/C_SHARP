@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FACEAR_2019ModelStoreContainer" CdmEntityContainer="FACEAR_2019Entities2">
+    <EntitySetMapping Name="Academico">
+      <EntityTypeMapping TypeName="FACEAR_2019Model.Academico">
+        <MappingFragment StoreEntitySet="Academico">
+          <ScalarProperty Name="MateriaFavorita" ColumnName="MateriaFavorita" />
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+          <ScalarProperty Name="Excluido" ColumnName="Excluido" />
+          <ScalarProperty Name="Id_Academico" ColumnName="Id_Academico" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Produto">
+      <EntityTypeMapping TypeName="FACEAR_2019Model.Produto">
+        <MappingFragment StoreEntitySet="Produto">
+          <ScalarProperty Name="Id_Produto" ColumnName="Id_Produto" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+          <ScalarProperty Name="Preco_Venda" ColumnName="Preco_Venda" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NOTA">
+      <EntityTypeMapping TypeName="FACEAR_2019Model.NOTA">
+        <MappingFragment StoreEntitySet="NOTA">
+          <ScalarProperty Name="NotaIIII" ColumnName="NotaIIII" />
+          <ScalarProperty Name="NotaIII" ColumnName="NotaIII" />
+          <ScalarProperty Name="NotaII" ColumnName="NotaII" />
+          <ScalarProperty Name="NotaI" ColumnName="NotaI" />
+          <ScalarProperty Name="NomeMateria" ColumnName="NomeMateria" />
+          <ScalarProperty Name="IdAcademico" ColumnName="IdAcademico" />
+          <ScalarProperty Name="IdNota" ColumnName="IdNota" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Materia">
+      <EntityTypeMapping TypeName="FACEAR_2019Model.Materia">
+        <MappingFragment StoreEntitySet="Materia">
+          <ScalarProperty Name="Excluido" ColumnName="Excluido" />
+          <ScalarProperty Name="Disponivel" ColumnName="Disponivel" />
+          <ScalarProperty Name="Conteudo" ColumnName="Conteudo" />
+          <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+          <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

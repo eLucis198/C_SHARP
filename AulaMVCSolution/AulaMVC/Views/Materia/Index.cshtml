@@ -1,0 +1,76 @@
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<form id="formGod">
+    <div>UNIFACEAR - Araucária - PR</div>
+    <div id="divCurso">Curso de Sistemas de Informação</div>
+    <input type="text" id="txtCor" name="txtCor"/>
+    <input type="button" id="btn_Evento" name="btn_Evento" onclick="Muda_Cor()" value="Muda a Cor para Green"/>
+
+
+    <input type="text" class="aluno" id="nome" name="nome" />
+    <input type="number" class="aluno" id="idade" name="idade" />
+    <br />
+    <br />
+    <input type="button" id="btnAbreDiv" name="btnAbreDiv" value="MOSTRAR DIV" onclick="MostraDiv()"/>
+    <br />
+    <input type="button" id="btnEscondeDiv" name="btnEscondeDiv" value="ESCONDE DIV" onclick="EscondeDiv()"/>
+    
+    <div id="divTexto">
+        Aqui estão os melhores
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <input type="button" id="btnFazTudo" name="btnFazTudo" onclick="FazTudo()" value="Faz Tudo"/>
+    <div id="divOlaMundo">
+        Olá Mundo!
+    </div>
+
+</form>
+
+@*<iframe src="https://www.unifacear.edu.br" height="500", width="100%"></iframe>*@
+
+@section scripts{
+    <script>
+        function FazTudo() {
+            $('#divOlaMundo').slideToggle();
+        }
+
+
+        // Executa após carregar todo o HTML
+        $(document).ready(function (){
+            //alert('Ola Mundo');
+        });
+
+        function MostraDiv() {
+            $('#divTexto').show();
+            $('#btnEscondeDiv').show();
+        }
+
+        function EscondeDiv() {
+            $('#divTexto').hide();
+            $('#btnEscondeDiv').hide();
+        }
+
+        function Muda_Cor() {
+            var cor = document.getElementById('txtCor').value;
+            var tamanho = document.getElementById('divCurso').style.fontSize;
+            var x = parseFloat(tamanho);
+            document.getElementById('divCurso').style.fontSize = x + 1;
+            
+            //alert(cor);
+            $("#formGod").css("color", cor).css("font-size", tamanhoT);
+            $("input.Aluno").css("background-color", "green");
+            //var elemento = document.getElementById('divCurso');
+            //elemento.style.color = 'blue';
+        }
+    </script>
+}

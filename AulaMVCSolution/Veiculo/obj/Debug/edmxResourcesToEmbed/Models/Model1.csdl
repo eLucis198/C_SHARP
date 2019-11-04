@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_VeiculoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="ID_Pessoa" />
+    </Key>
+    <Property Name="ID_Pessoa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Cpf" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Senha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ativo" Type="Boolean" />
+    <NavigationProperty Name="Veiculo" Relationship="Self.FK__Veiculo__ID_Pess__398D8EEE" FromRole="Pessoa" ToRole="Veiculo" />
+  </EntityType>
+  <EntityType Name="Veiculo">
+    <Key>
+      <PropertyRef Name="ID_Veiculo" />
+    </Key>
+    <Property Name="ID_Veiculo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_Pessoa" Type="Int32" Nullable="false" />
+    <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Montadora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ano" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Pessoa" Relationship="Self.FK__Veiculo__ID_Pess__398D8EEE" FromRole="Veiculo" ToRole="Pessoa" />
+  </EntityType>
+  <Association Name="FK__Veiculo__ID_Pess__398D8EEE">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="Veiculo" Type="Self.Veiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="ID_Pessoa" />
+      </Principal>
+      <Dependent Role="Veiculo">
+        <PropertyRef Name="ID_Pessoa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DB_VeiculoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+    <EntitySet Name="Veiculo" EntityType="Self.Veiculo" />
+    <AssociationSet Name="FK__Veiculo__ID_Pess__398D8EEE" Association="Self.FK__Veiculo__ID_Pess__398D8EEE">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Veiculo" EntitySet="Veiculo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

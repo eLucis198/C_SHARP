@@ -1,0 +1,25 @@
+﻿@model AulaMVC.Models.Materia
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edita Materia</h2>
+
+<form>
+    @Html.LabelFor(x => x.Descricao)
+    @Html.TextBoxFor(x => x.Descricao)
+    <br />
+    @Html.LabelFor(x => x.Conteudo)
+    @Html.TextAreaFor(x => x.Conteudo, new { rows = 5, col = 1000 })
+    <br />
+    @Html.LabelFor(x => x.Disponivel)
+    @Html.CheckBoxFor(x => x.Disponivel)
+    <br />
+    @Html.LabelFor(x => x.Excluido)
+    Sim: @Html.RadioButtonFor(x => x.Excluido, "true")
+    Não: @Html.RadioButtonFor(x => x.Excluido, "false")
+    <br />
+    @Html.Label("cbxAcademico", "Academico")
+    @Html.DropDownList("Batata", (IEnumerable<SelectListItem>)ViewBag.Academicos, "")
+</form>

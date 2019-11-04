@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<div id="pesquisa">
+    Nome: <input type="text" id="txtNome" name="txtNome" />
+    Sexo: <input type="text" id="txtSexo" name="txtSexo" />
+    <input type="button" id="btnPesquisar" name="btnPesquisar" value="Pesquisar" onclick="buscaAcademico()" />
+    <input type="button" id="btnPesquisar2" name="btnPesquisar2" value="Pesquisar2" onclick="buscaAcademico2()" />
+</div>
+
+<div id="tbl_academicos">
+
+</div>
+
+<div id="tbl_academicos2">
+
+</div>
+
+@section scripts{
+    <script>
+        function mostraTabelaHtml(listaDeAlunos) {
+            $('#tbl_academicos2').html('');
+            for ($i = 0; $i < listaDeAlunos.length; $i++) {
+                $("#tbl_academicos2").append("<tr><td>" + listaDeAlunos[$i].Nome + "</td></tr>");
+            }
+        }
+
+        function buscaAcademico() {
+            $.ajax({
+                url: '@Url.Action("buscaAcademico")',
+                type: 'POST',
+                data: { txtNome: $('#txtNome').val(), txtSexo: $('#txtSexo').val() },
+                success: function (data) {
+                    alert('certo');
+                    $('#tbl_academicos').html(data.tabela_de_alunos);
+                    //mostraTabelaHtml(data.lista);
+                },
+                error: function (data) {
+                    alert('erou');
+                }
+            });
+        }
+
+        function buscaAcademico2() {
+            $.ajax({
+                url: '@Url.Action("buscaAcademico2")',
+                type: 'POST',
+                data: { txtNome: $('#txtNome').val(), txtSexo: $('#txtSexo').val() },
+                success: function (data) {
+                    mostraTabelaHtml(data.lista);
+                },
+                error: function (data) {
+                    alert('erou');
+                }
+            });
+        }
+    </script>
+}

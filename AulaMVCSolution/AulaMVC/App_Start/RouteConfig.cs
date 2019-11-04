@@ -16,7 +16,7 @@ namespace AulaMVC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Professor", action = "Create", id = UrlParameter.Optional }
+                defaults: new { controller = "Materia", action = "OutrosComandosJquery", id = UrlParameter.Optional }
             );
         }
     }

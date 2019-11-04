@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "OutrosComandosJquery";
+}
+
+<h2>OutrosComandosJquery</h2>
+
+<form>
+    <table width="100%">
+        <tr>
+            <td>Nome: <input type="text" id="txtNome" name="txtNome" /></td>
+            <td>Sobrenome: <input type="text" id="txtSobrenome" name="txtSobrenome" /></td>
+            <td><input type="button" id="btnMostraNome" name="btnMostraNome" value="Mostra Nome" onclick="MostraNome()" /></td>
+            <td><input type="text" id="txtFullNome" name="txtFullNome" /></td>
+            <td><input type="button" id="btnMostraNomeMsg" name="btnMostraNomeMsg" value="Mostra Nome" onclick="MostraNomeMsg()" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="desabilitaCampo" name="desabilitaCampo" value="Desabilita" onclick="Desabilita()" /></td>
+            <td><input type="button" id="habilitaCampo" name="habilitaCampo" value="Habilita" onclick="Habilita()" /></td>
+        </tr>
+    </table>
+    <hr />
+    <input type="button" id="btnMostraTexto" name="btnMostraText" value="Mostra Texto" onclick="MostrarTexto()" />
+    <div id="minhaDiv"></div>
+
+    <hr />
+    <input type="button" id="btnMostraHora" name="btnMostraHora" value="Mostra Hora" onclick="BuscaDados()" />
+    <hr />
+    <input type="button" id="btnMostraQtd" name="btnMostraQtd" value="Mostra Qtd" onclick="BuscaQtd()" />
+
+    <hr />
+    <input />
+
+</form>
+
+
+
+@section scripts{
+    <script>
+        function BuscaDados() {
+            $.ajax({
+                url: '@Url.Action("RetornaHora")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    alert(data.horaAtual);
+                },
+                error: function (data) {
+                    alert('erou2');
+                }
+            });
+        }
+
+        function BuscaQtd() {
+            $.ajax({
+                url: '@Url.Action("RetornaQtdLetras")',
+                type: 'POST',
+                data: { nome: $('#txtNome').val(), sobrenome: $('#txtSobrenome').val() },
+                success: function (data) {
+                    alert(data.qtd);
+                },
+                error: function (data) {
+                    alert('erou2');
+                }
+            });
+        }
+
+        function MostraHora() {
+            var data_hora = new Date();
+            var texto = "<h1 style='color:red'> " + data_hora.toTimeString() + " </h1>";
+            $('#minhaDiv').html(texto);
+        }
+
+        function MostraNumero() {
+            alert(1);
+        }
+
+        function MostrarTexto() {
+            var texto = "<h1 style='color:red'> Estamos em Outubro </h1>";
+            $('#minhaDiv').html(texto);
+        }
+
+        function Desabilita() {
+            $('#txtNome').attr('disabled', true);
+            $('#txtSobrenome').attr('disabled', true);
+        }
+
+        function Habilita() {
+            $('#txtNome').attr('disabled', false);
+            $('#txtSobrenome').attr('disabled', false);
+        }
+
+        function MostraNome() {
+            //if ($('#txtNome').val() == "Alexandre") {
+            //    $('#txtSobrenome').val("Hammerschmidt");
+            //}
+            //else if ($('#txtNome').val() == "Carlos") {
+            //    $('#txtSobrenome').val("Punheteiro");
+            //}
+            //else if ($('#txtNome').val() == "Geovani") {
+            //    $('#txtSobrenome').val("Não paga coca pros amigo");
+            //}
+            //else {
+            //    $('#txtSobrenome').val($('#txtNome').val());
+            //    $('#txtSobrenome').val("Guedes");
+            //}
+            $('#txtFullNome').val($('#txtNome').val() + " " + $('#txtSobrenome').val());
+            $('#btnMostraNomeMsg').trigger('onclick');
+        }
+
+        function MostraNomeMsg() {
+            alert($('#txtNome').val() + " " + $('#txtSobrenome').val());
+            
+        }
+
+        $(document).ready(function () {
+            //window.setTimeout('MostraNumero()', 1000)
+            //window.setInterval('MostraNumero()', 1000)
+            window.setInterval('MostraHora()', 1000)
+            
+
+            $('#txtNome').on("keyup", function () {
+                $('#txtSobrenome').val($('#txtNome').val());
+            });
+
+            $('#txtSobrenome').keyup(function () {
+                //MostraNome();
+            });
+            
+        });
+
+    </script>
+}
