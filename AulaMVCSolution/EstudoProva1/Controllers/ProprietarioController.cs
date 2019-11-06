@@ -100,17 +100,14 @@ namespace EstudoProva1.Controllers
                 listaDeCarro = (List<Carro>)Session["Carros"];
             }
             int idAux = (int)Session["IdEditar"];
-            Proprietario p = new Proprietario();
-            p = db.Proprietario.Find(idAux);
             Carro c = new Carro();
             c.Montadora = form["txtMontadora"];
             c.Modelo = form["txtModelo"];
             c.Ano = form["txtAno"];
             c.Cor = form["txtCor"];
             c.Placa = form["txtPlaca"];
-            c.Proprietario = p;
+            c.Id_Proprietario = (int)Session["IdEditar"];
             listaDeCarro.Add(c);
-
             StringBuilder str = new StringBuilder();
 
             str.Append("<table class=\"table table-bordered table-striped\">");
@@ -196,7 +193,17 @@ namespace EstudoProva1.Controllers
             p.Cpf = form["txtCpfProprietario"];
             p.Sexo = form["selectSexoProprietario"];
             p.Ativo = ativo;
-            db.SaveChanges();
+
+            if (Session["Carros"] != null)
+            {
+                IList<Carro> listaC = new List<Carro>();
+                listaC = (List<Carro>)Session["Carros"];
+                p.Carro = listaC;
+                db.SaveChanges();
+                Session.Remove("Carros");
+            }
+
+            
             return Json(new
             { }, JsonRequestBehavior.AllowGet);
         }
