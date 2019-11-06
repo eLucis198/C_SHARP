@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EstudoProva1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Carro">
+    <Key>
+      <PropertyRef Name="Id_Carro" />
+    </Key>
+    <Property Name="Id_Carro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Montadora" Type="nvarchar" MaxLength="50" />
+    <Property Name="Modelo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Ano" Type="nvarchar" MaxLength="4" />
+    <Property Name="Cor" Type="nvarchar" MaxLength="50" />
+    <Property Name="Placa" Type="nvarchar" MaxLength="50" />
+    <Property Name="Id_Proprietario" Type="int" />
+  </EntityType>
+  <EntityType Name="Proprietario">
+    <Key>
+      <PropertyRef Name="Id_Proprietario" />
+    </Key>
+    <Property Name="Id_Proprietario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cpf" Type="nvarchar" MaxLength="20" />
+    <Property Name="Sexo" Type="nvarchar" MaxLength="1" />
+    <Property Name="Ativo" Type="bit" />
+  </EntityType>
+  <Association Name="FK__Carro__Id_Propri__398D8EEE">
+    <End Role="Proprietario" Type="Self.Proprietario" Multiplicity="0..1" />
+    <End Role="Carro" Type="Self.Carro" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proprietario">
+        <PropertyRef Name="Id_Proprietario" />
+      </Principal>
+      <Dependent Role="Carro">
+        <PropertyRef Name="Id_Proprietario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EstudoProva1ModelStoreContainer">
+    <EntitySet Name="Carro" EntityType="Self.Carro" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proprietario" EntityType="Self.Proprietario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Carro__Id_Propri__398D8EEE" Association="Self.FK__Carro__Id_Propri__398D8EEE">
+      <End Role="Proprietario" EntitySet="Proprietario" />
+      <End Role="Carro" EntitySet="Carro" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

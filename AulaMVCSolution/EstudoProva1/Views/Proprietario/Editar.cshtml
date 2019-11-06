@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h1>Editar Proprietario</h1>
+<hr />
+<h3>Dados do Proprietário</h3>
+<form method="post" id="form" name="form">
+    <label for="txtNomeProprietario" id="lblNomeProprietario">Nome: </label>
+    <input type="text" id="txtNomeProprietario" name="txtNomeProprietario" />
+    <label for="txtCpfProprietario" id="lblCpfProprietario">CPF: </label>
+    <input type="text" id="txtCpfProprietario" name="txtCpfProprietario" />
+    <select id="selectSexoProprietario" name="selectSexoProprietario">
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+    </select>
+    <input type="checkbox" id="cbxAtivoProprietario" name="cbxAtivoProprietario" checked />
+    <label for="cbxAtivoProprietario">Ativo</label>
+    <input type="button" id="btnAtualizarProprietario" name="btnAtualizarProprietario" value="Atualizar Proprietario" onclick="AtualizarProprietario()" />
+</form>
+<hr />
+<h3>Carros do Proprietário</h3>
+<div id="listaDeCarro"></div>
+
+@section scripts{
+    <script>
+
+        function CarregaCarrosDoCliente() {
+            $.ajax({
+                url: '@Url.Action("CarregaCarrosDoCliente")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $('#listaDeCarro').html(data.ListaCarro);
+                },
+                error: function () {
+                    alert('não conseguiu carregar o prop');
+                }
+            });
+        }
+
+        function CarregaProprietario() {
+            $.ajax({
+                url: '@Url.Action("CarregaProprietario")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    console.log(data.nome);
+                    $('#txtNomeProprietario').val(data.nome);
+                    $('#txtCpfProprietario').val(data.cpf);
+                    $('#selectSexoProprietario').val(data.sexo);
+                    if (!data.ativo) {
+                        $('#cbxAtivoProprietario').prop('checked', false);
+                    }
+                },
+                error: function () {
+                    alert('não conseguiu carregar o prop');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            CarregaProprietario();
+            CarregaCarrosDoCliente();
+        });
+
+        function AtualizarProprietario() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("AtualizarProprietario")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    alert('Atualizado Com Sucesso');
+                    var targetUrl = "/Proprietario/Listar";
+                    window.location.href = targetUrl;
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+        }
+
+    </script>
+}

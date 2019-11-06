@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EstudoProva1ModelStoreContainer" CdmEntityContainer="EstudoProva1Entities">
+    <EntitySetMapping Name="Carro">
+      <EntityTypeMapping TypeName="EstudoProva1Model.Carro">
+        <MappingFragment StoreEntitySet="Carro">
+          <ScalarProperty Name="Id_Carro" ColumnName="Id_Carro" />
+          <ScalarProperty Name="Montadora" ColumnName="Montadora" />
+          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="Ano" ColumnName="Ano" />
+          <ScalarProperty Name="Cor" ColumnName="Cor" />
+          <ScalarProperty Name="Placa" ColumnName="Placa" />
+          <ScalarProperty Name="Id_Proprietario" ColumnName="Id_Proprietario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Proprietario">
+      <EntityTypeMapping TypeName="EstudoProva1Model.Proprietario">
+        <MappingFragment StoreEntitySet="Proprietario">
+          <ScalarProperty Name="Id_Proprietario" ColumnName="Id_Proprietario" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Cpf" ColumnName="Cpf" />
+          <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+          <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

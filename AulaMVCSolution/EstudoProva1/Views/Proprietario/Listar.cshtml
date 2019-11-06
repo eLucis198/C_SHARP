@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+
+<form method="post" id="form" name="form">
+    <label for="txtNomeProprietario" id="lblNomeProprietario">Nome: </label>
+    <input type="text" id="txtNomeProprietario" name="txtNomeProprietario" />
+    <label for="txtCpfProprietario" id="lblCpfProprietario">CPF: </label>
+    <input type="text" id="txtCpfProprietario" name="txtCpfProprietario" />
+    <select id="selectSexoProprietario" name="selectSexoProprietario">
+        <option value="T">Todos</option>
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+    </select>
+    <input type="checkbox" id="cbxAtivoProprietario" name="cbxAtivoProprietario" checked />
+    <label for="cbxAtivoProprietario">Ativo</label>
+    @Html.ActionLink("CADASTRAR", "Cadastrar", "Proprietario", null, new { @class="btn btn-primary" } )
+</form> 
+
+<hr />
+<div id="dadosProprietario">
+</div>
+
+<div id="tabelaDeProprietarios">
+</div>
+
+
+@section scripts{
+    <script>
+        function PesquisarProprietario() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("PesquisarProprietario")',
+                type: 'POST',
+                //data: { txtNomeProprietario: $('#txtNomeProprietario').val(), txtCpfProprietario:$('#txtCpfProprietario').val(), selectSexoProprietario:$('#selectSexoProprietario').val(), cbxAtivoProprietario:$('#cbxAtivoProprietario').val() },
+                data: form,
+                success: function (data) {
+                    $('#tabelaDeProprietarios').html(data.tabelaDeProprietarios);
+                },
+                error: function (data) {
+                    alert('erou');
+                }
+            });
+        }
+
+        $('#txtNomeProprietario').keyup(function (event) {
+            PesquisarProprietario();
+        });
+
+        $('#txtCpfProprietario').keyup(function (event) {
+            PesquisarProprietario();
+        });
+
+        $('#selectSexoProprietario').change(function () {
+            PesquisarProprietario();
+        });
+
+        $('#cbxAtivoProprietario').change(function () {
+            PesquisarProprietario();
+        });
+
+        function Edit(id) {
+            $.ajax({
+                url: '@Url.Action("SetarViewBag")',
+                type: 'POST',
+                data: {id:id},
+                success: function () { },
+                error: function () { console.log('Deu algo de errado ao setar a session') }
+            });
+            var targetUrl = "/Proprietario/Editar";
+            window.location.href = targetUrl;
+        }
+
+        function Delete(id) {
+            $.ajax({
+                url: '@Url.Action("Delete")',
+                type: 'POST',
+                data: {id:id},
+                success: function () { PesquisarProprietario(); },
+                error: function () { console.log('Deu algo de errado no delete') }
+            });
+        }
+
+        $(document).ready(function () {
+            PesquisarProprietario();
+        });
+
+    </script>
+}
