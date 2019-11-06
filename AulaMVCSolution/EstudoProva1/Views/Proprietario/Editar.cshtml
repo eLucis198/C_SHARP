@@ -22,9 +22,53 @@
 <hr />
 <h3>Carros do Proprietário</h3>
 <div id="listaDeCarro"></div>
+<input type="button" id="btnMostraAdicionarCarro" name="btnMostraAdicionarCarro" value="Adicionar Carro" onclick="MostraAdicionarCarro()" />
+<hr />
+<div id="adicionarCarro" hidden>
+    <form id="formAdicionarCarro" name="formAdicionarCarro" method="post">
+        <h3>Adicionar Carro</h3>
+
+        <label for="txtMontadora">Montadora: </label>
+        <input type="text" id="txtMontadora" name="txtMontadora" />
+
+        <label for="txtModelo">Modelo: </label>
+        <input type="text" id="txtModelo" name="txtModelo" />
+
+        <label for="txtAno">Ano: </label>
+        <input type="text" id="txtAno" name="txtAno" />
+
+        <label for="txtCor">Cor: </label>
+        <input type="text" id="txtCor" name="txtCor" />
+
+        <label for="txtPlaca">Placa: </label>
+        <input type="text" id="txtPlaca" name="txtPlaca" />
+
+        <input type="button" id="btnAdicionarCarro" name="btnAdicionarCarro" value="Adicionar" onclick="AdicionarCarroTemp()" />
+    </form>
+</div>
+
+<div id="listaDeCarroTemp"></div>
 
 @section scripts{
     <script>
+        function MostraAdicionarCarro() {
+            $('#adicionarCarro').show();
+        }
+
+        function AdicionarCarroTemp() {
+            var form = $('#formAdicionarCarro').serialize();
+            $.ajax({
+                url: '@Url.Action("AdicionarCarroTemp")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
 
         function CarregaCarrosDoCliente() {
             $.ajax({
