@@ -67,11 +67,12 @@
                 url: '@Url.Action("SetarViewBag")',
                 type: 'POST',
                 data: {id:id},
-                success: function () { },
+                success: function () {
+                    var targetUrl = "/Proprietario/Editar";
+                    window.location.href = targetUrl;
+                },
                 error: function () { console.log('Deu algo de errado ao setar a session') }
             });
-            var targetUrl = "/Proprietario/Editar";
-            window.location.href = targetUrl;
         }
 
         function Delete(id) {

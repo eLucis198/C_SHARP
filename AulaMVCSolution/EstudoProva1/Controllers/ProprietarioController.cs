@@ -12,6 +12,12 @@ namespace EstudoProva1.Controllers
     {
         EstudoProva1Entities db = new EstudoProva1Entities();
 
+        //Tela Listar
+        public ActionResult Listar()
+        {
+            return View();
+        }
+
         public JsonResult PesquisarProprietario(FormCollection form)
         {
             bool ativo;
@@ -65,7 +71,15 @@ namespace EstudoProva1.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Listar()
+        public JsonResult SetarViewBag(int id)
+        {
+            Session["IdEditar"] = id;
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+
+        // Cadastrar
+
+        public ActionResult Cadastrar()
         {
             return View();
         }
@@ -92,37 +106,32 @@ namespace EstudoProva1.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult AdicionarCarroTemp(FormCollection form)
+        // Editar Proprietário
+
+        public ActionResult Editar()
         {
-            IList<Carro> listaDeCarro = new List<Carro>();
-            if ( !(Session["Carros"] == null) )
+            if (Session["IdEditar"] == null)
             {
-                listaDeCarro = (List<Carro>)Session["Carros"];
+                return RedirectToAction("Listar", "Proprietario");
             }
-            int idAux = (int)Session["IdEditar"];
-            Carro c = new Carro();
-            c.Montadora = form["txtMontadora"];
-            c.Modelo = form["txtModelo"];
-            c.Ano = form["txtAno"];
-            c.Cor = form["txtCor"];
-            c.Placa = form["txtPlaca"];
-            c.Id_Proprietario = (int)Session["IdEditar"];
-            listaDeCarro.Add(c);
-            StringBuilder str = new StringBuilder();
+            return View();
+        }
 
-            str.Append("<table class=\"table table-bordered table-striped\">");
-            str.Append("<tr><td>Montador</td><td>Modelo</td><td>Ano</td><td>Cor</td><td>Placa</td></tr>");
-
-            foreach (var item in listaDeCarro)
-            {
-                str.Append("<tr><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td></tr>");
-            }
-
-            str.Append("</table>");
-            Session["Carros"] = listaDeCarro;
+        public JsonResult CarregaProprietario()
+        {
+            int id = (int)Session["IdEditar"];
+            Proprietario p = new Proprietario();
+            p = db.Proprietario.Find(id);
+            string nome = p.Nome;
+            string cpf = p.Cpf;
+            string sexo = p.Sexo;
+            bool ativo = (bool)p.Ativo;
             return Json(new
             {
-                ListaCarro = str.ToString()
+                nome,
+                cpf,
+                sexo,
+                ativo
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -142,7 +151,7 @@ namespace EstudoProva1.Controllers
 
             foreach (var item in p.Carro)
             {
-                str.Append("<tr><td>" + item.Montadora + "</td><td>" + item.Modelo+ "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td></tr>");
+                str.Append("<tr><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td></tr>");
             }
 
             str.Append("</table>");
@@ -150,32 +159,6 @@ namespace EstudoProva1.Controllers
             return Json(new
             {
                 ListaCarro = str.ToString()
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Cadastrar()
-        {
-            return View();
-        }
-
-        public JsonResult SetarViewBag(int id)
-        {
-            Session["IdEditar"] = id;
-            return Json(new { }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult CarregaProprietario()
-        {
-            int id = (int)Session["IdEditar"];
-            Proprietario p = new Proprietario();
-            p = db.Proprietario.Find(id);
-            string nome = p.Nome;
-            string cpf = p.Cpf;
-            string sexo = p.Sexo;
-            bool ativo = (bool)p.Ativo;
-            return Json(new
-            {
-                nome, cpf, sexo, ativo
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -203,18 +186,170 @@ namespace EstudoProva1.Controllers
                 Session.Remove("Carros");
             }
 
-            
+
             return Json(new
             { }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Editar()
+        public JsonResult AdicionarCarroTemp(FormCollection form)
         {
-            if (Session["IdEditar"] == null)
+            int idProx = 1;
+            if (Session["IdProximo"] != null)
             {
-                return RedirectToAction("Listar", "Proprietario");
+                idProx = (int)Session["IdProximo"];
             }
-            return View();
+
+            IList<Carro> listaCarroTemp = new List<Carro>();
+            if ( !(Session["Carros"] == null) )
+            {
+                listaCarroTemp = (List<Carro>)Session["Carros"];
+            }
+            int idAux = (int)Session["IdEditar"];
+            Carro c = new Carro();
+            c.Montadora = form["txtMontadora"];
+            c.Modelo = form["txtModelo"];
+            c.Ano = form["txtAno"];
+            c.Cor = form["txtCor"];
+            c.Placa = form["txtPlaca"];
+            c.Id_Proprietario = idProx;
+            c.Id_Carro = idProx;
+            listaCarroTemp.Add(c);
+            Session["IdProximo"] = idProx+1;
+
+            StringBuilder str = new StringBuilder();
+
+            str.Append("<table class=\"table table-bordered table-striped\">");
+            str.Append("<tr><td>ID</td><td>Montador</td><td>Modelo</td><td>Ano</td><td>Cor</td><td>Placa</td><td>#</td><td>#</td></tr>");
+
+            foreach (var item in listaCarroTemp)
+            {
+                str.Append("<tr><td>" + item.Id_Carro + "</td><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td><td><input type=\"button\" id=\"btnDeleteCarroTemp\" onclick=\"DeleteCarroTemp(" + item.Id_Carro + ")\" value=\"Deletar\"></td><td><input type=\"button\" id=\"btnEditarCarroTemp\" onclick=\"EditarCarroTemp(" + item.Id_Carro + ")\" value=\"Editar\"></td></tr>");
+            }
+
+            str.Append("</table>");
+            Session["Carros"] = listaCarroTemp;
+            return Json(new
+            {
+                ListaCarro = str.ToString()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult DeleteCarroTemp(int id)
+        {
+            IList<Carro> listaCarroTemp = new List<Carro>();
+            if (Session["Carros"] != null)
+            {
+                listaCarroTemp = (List<Carro>)Session["Carros"];
+            }
+            for (int i = 0; i < listaCarroTemp.Count; i++)
+            {
+                if (listaCarroTemp[i].Id_Carro == id)
+                {
+                    listaCarroTemp.RemoveAt(i);
+                }
+            }
+
+            StringBuilder str = new StringBuilder();
+
+            str.Append("<table class=\"table table-bordered table-striped\">");
+            str.Append("<tr><td>ID</td><td>Montador</td><td>Modelo</td><td>Ano</td><td>Cor</td><td>Placa</td><td>#</td><td>#</td></tr>");
+
+            foreach (var item in listaCarroTemp)
+            {
+                str.Append("<tr><td>" + item.Id_Carro + "</td><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td><td><input type=\"button\" id=\"btnDeleteCarroTemp\" onclick=\"DeleteCarroTemp(" + item.Id_Carro + ")\" value=\"Deletar\"></td><td><input type=\"button\" id=\"btnEditarCarroTemp\" onclick=\"EditarCarroTemp(" + item.Id_Carro + ")\" value=\"Editar\"></td></tr>");
+            }
+
+            str.Append("</table>");
+            Session["Carros"] = listaCarroTemp;
+            return Json(new
+            {
+                ListaCarro = str.ToString()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult EditarCarroTemp(int id)
+        {
+            IList<Carro> listaCarroTemp = new List<Carro>();
+            if (Session["Carros"] != null)
+            {
+                listaCarroTemp = (List<Carro>)Session["Carros"];
+            }
+            Carro c = new Carro();
+            for (int i = 0; i < listaCarroTemp.Count; i++)
+            {
+                if (listaCarroTemp[i].Id_Carro == id)
+                {
+                    c = listaCarroTemp[i];
+                }
+            }
+
+            StringBuilder str = new StringBuilder();
+
+            str.Append("<table class=\"table table-bordered table-striped\">");
+            str.Append("<tr><td>ID</td><td>Montador</td><td>Modelo</td><td>Ano</td><td>Cor</td><td>Placa</td><td>#</td><td>#</td></tr>");
+
+            foreach (var item in listaCarroTemp)
+            {
+                if (item.Id_Carro == id)
+                {
+                    str.Append("<tr style=\"background-color:gray\"><td>" + item.Id_Carro + "</td><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td><td><input type=\"button\" id=\"btnDeleteCarroTemp\" onclick=\"DeleteCarroTemp(" + item.Id_Carro + ")\" value=\"Deletar\"></td><td><input type=\"button\" id=\"btnEditarCarroTemp\" onclick=\"EditarCarroTemp(" + item.Id_Carro + ")\" value=\"Editar\"></td></tr>");
+                }
+                else
+                {
+                    str.Append("<tr><td>" + item.Id_Carro + "</td><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td><td><input type=\"button\" id=\"btnDeleteCarroTemp\" onclick=\"DeleteCarroTemp(" + item.Id_Carro + ")\" value=\"Deletar\"></td><td><input type=\"button\" id=\"btnEditarCarroTemp\" onclick=\"EditarCarroTemp(" + item.Id_Carro + ")\" value=\"Editar\"></td></tr>");
+                }
+            }
+
+            str.Append("</table>");
+            Session["Carros"] = listaCarroTemp;
+            Session["IdEditarCarroTemp"] = c.Id_Carro;
+            return Json(new
+            {
+                c,
+                ListaCarro = str.ToString()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SalvarEdicaoCarroTemp(FormCollection form)
+        {
+            int idAux = (int)Session["IdEditarCarroTemp"];
+
+            IList<Carro> listaCarroTemp = new List<Carro>();
+            if (!(Session["Carros"] == null))
+            {
+                listaCarroTemp = (List<Carro>)Session["Carros"];
+            }
+            Carro c = new Carro();
+
+            for (int i = 0; i < listaCarroTemp.Count; i++)
+            {
+                if (listaCarroTemp[i].Id_Carro == idAux)
+                {
+                    c = listaCarroTemp[i];
+                }
+            }
+            c.Montadora = form["txtMontadora"];
+            c.Modelo = form["txtModelo"];
+            c.Ano = form["txtAno"];
+            c.Cor = form["txtCor"];
+            c.Placa = form["txtPlaca"];
+
+            StringBuilder str = new StringBuilder();
+
+            str.Append("<table class=\"table table-bordered table-striped\">");
+            str.Append("<tr><td>ID</td><td>Montador</td><td>Modelo</td><td>Ano</td><td>Cor</td><td>Placa</td><td>#</td><td>#</td></tr>");
+
+            foreach (var item in listaCarroTemp)
+            {
+                str.Append("<tr><td>" + item.Id_Carro + "</td><td>" + item.Montadora + "</td><td>" + item.Modelo + "</td><td>" + item.Ano + "</td><td>" + item.Cor + "</td><td>" + item.Placa + "</td><td><input type=\"button\" id=\"btnDeleteCarroTemp\" onclick=\"DeleteCarroTemp(" + item.Id_Carro + ")\" value=\"Deletar\"></td><td><input type=\"button\" id=\"btnEditarCarroTemp\" onclick=\"EditarCarroTemp(" + item.Id_Carro + ")\" value=\"Editar\"></td></tr>");
+            }
+
+            str.Append("</table>");
+            Session["Carros"] = listaCarroTemp;
+            return Json(new
+            {
+                ListaCarro = str.ToString()
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

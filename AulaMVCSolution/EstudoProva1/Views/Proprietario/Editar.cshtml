@@ -17,16 +17,17 @@
     </select>
     <input type="checkbox" id="cbxAtivoProprietario" name="cbxAtivoProprietario" checked />
     <label for="cbxAtivoProprietario">Ativo</label>
-    <input type="button" id="btnAtualizarProprietario" name="btnAtualizarProprietario" value="Atualizar Proprietario" onclick="AtualizarProprietario()" />
+    <input type="button" id="btnAtualizarProprietario" name="btnAtualizarProprietario" value="SALVAR TODAS AS MODICICÃÇÕES" onclick="AtualizarProprietario()" />
 </form>
 <hr />
-<h3>Carros do Proprietário</h3>
+<h3>Carros do Proprietário (Banco)</h3>
 <div id="listaDeCarro"></div>
-<input type="button" id="btnMostraAdicionarCarro" name="btnMostraAdicionarCarro" value="Adicionar Carro" onclick="MostraAdicionarCarro()" />
 <hr />
+
+<input type="button" id="btnMostraAdicionarCarro" name="btnMostraAdicionarCarro" value="Adicionar Carro" onclick="MostraAdicionarCarro()" />
 <div id="adicionarCarro" hidden>
     <form id="formAdicionarCarro" name="formAdicionarCarro" method="post">
-        <h3>Adicionar Carro</h3>
+        <h3>Adicionar Carro (Sessão)</h3>
 
         <label for="txtMontadora">Montadora: </label>
         <input type="text" id="txtMontadora" name="txtMontadora" />
@@ -43,7 +44,7 @@
         <label for="txtPlaca">Placa: </label>
         <input type="text" id="txtPlaca" name="txtPlaca" />
 
-        <input type="button" id="btnAdicionarCarro" name="btnAdicionarCarro" value="Adicionar" onclick="AdicionarCarroTemp()" />
+        <input type="button" id="btnAdicionarCarro" name="btnAdicionarCarro" value="ADICIONAR NOVO CARRO À SESSÃO" onclick="AdicionarCarroTemp()" />
     </form>
 </div>
 
@@ -55,6 +56,47 @@
             $('#adicionarCarro').show();
         }
 
+        function EditarCarroTemp(id) {
+            $.ajax({
+                url: '@Url.Action("EditarCarroTemp")',
+                type: 'POST',
+                data: {id:id},
+                success: function (data) {
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                    $('#txtMontadora').val(data.c.Montadora);
+                    $('#txtModelo').val(data.c.Modelo);
+                    $('#txtAno').val(data.c.Ano);
+                    $('#txtCor').val(data.c.Cor);
+                    $('#txtPlaca').val(data.c.Placa);
+                    $('#btnAdicionarCarro').val('ATUALIZAR CARRO DA SESSÃO');
+                    $('#btnAdicionarCarro').attr('onclick', 'SalvarEdicaoCarroTemp()');
+                },
+                error: function (data) { alert('houve algo de errado na hora de editar o carro'); }
+            });
+        }
+
+        function SalvarEdicaoCarroTemp() {
+            var form = $('#formAdicionarCarro').serialize();
+            $.ajax({
+                url: '@Url.Action("SalvarEdicaoCarroTemp")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                    $('#txtMontadora').val('');
+                    $('#txtModelo').val('');
+                    $('#txtAno').val('');
+                    $('#txtCor').val('');
+                    $('#txtPlaca').val('');
+                    $('#btnAdicionarCarro').val('ADICIONAR NOVO CARRO À SESSÃO');
+                    $('#btnAdicionarCarro').attr('onclick', 'AdicionarCarroTemp()');
+                },
+                error: function () {
+                    alert('não conseguiu salvar as atualizacoes do carro na session');
+                }
+            });
+        }
+
         function AdicionarCarroTemp() {
             var form = $('#formAdicionarCarro').serialize();
             $.ajax({
@@ -63,6 +105,11 @@
                 data: form,
                 success: function (data) {
                     $('#listaDeCarroTemp').html(data.ListaCarro);
+                    $('#txtMontadora').val('');
+                    $('#txtModelo').val('');
+                    $('#txtAno').val('');
+                    $('#txtCor').val('');
+                    $('#txtPlaca').val('');
                 },
                 error: function () {
                     alert('não conseguiu adicioner carro na session');
@@ -104,6 +151,16 @@
             });
         }
 
+        function DeleteCarroTemp(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteCarroTemp")',
+                type: 'POST',
+                data: {id:id},
+                success: function (data) { $('#listaDeCarroTemp').html(data.ListaCarro); },
+                error: function () { console.log('Deu algo de errado no delete da session') }
+            });
+        }
+
         $(document).ready(function () {
             CarregaProprietario();
             CarregaCarrosDoCliente();
@@ -125,6 +182,8 @@
                 }
             });
         }
+
+
 
     </script>
 }
