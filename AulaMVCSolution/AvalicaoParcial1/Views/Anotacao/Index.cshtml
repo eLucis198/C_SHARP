@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Minha Agenda Virtual</h2>
+
+<form id="form" method="post">
+    Data: <input type="date" id="txtData" name="txtData" />
+    Anotação <input type="text" id="txtAnotacao" name="txtAnotacao" />
+    <input type="button" id="btnSalvar" name="btnSalvar" value="SALVAR" onclick="CreateAnotacao()" />
+</form>
+
+<div id="tableAnotacao"></div>
+
+@section scripts{
+    <script>
+
+        function CreateAnotacao() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("CreateAnotacao")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    console.log('Criado com Sucesso!');
+                    $('#tableAnotacao').html(data.TabelaAnotacao);
+                    $('#txtData').val('');
+                    $('#txtAnotacao').val('');
+                },
+                error: function () {
+                    alert('Erro na hora de Criar a anotação');
+                }
+            });
+        }
+
+        function SelecionarAnotacao(id) {
+            $.ajax({
+                url: '@Url.Action("SelecionarAnotacao")',
+                type: 'POST',
+                data: {id:id},
+                success: function (data) {
+                    console.log('Selecionado com Sucesso!');
+                    $('#tableAnotacao').html(data.TabelaAnotacao);
+                    $('#txtData').val(data.Data);
+                    $('#txtAnotacao').val(data.Anotacao);
+                },
+                error: function () {
+                    alert('Erro na hora de Selecionar a anotação');
+                }
+            });
+        }
+
+        function DeleteAnotacao(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteAnotacao")',
+                type: 'POST',
+                data: {id:id},
+                success: function (data) {
+                    console.log('Excluido com Sucesso!');
+                    $('#tableAnotacao').html(data.TabelaAnotacao);
+                    $('#txtData').val('');
+                    $('#txtAnotacao').val('');
+                },
+                error: function () {
+                    alert('Erro na hora de Excluir a anotação');
+                }
+            });
+        }
+
+        function CarregaAnotacao() {
+            $.ajax({
+                url: '@Url.Action("CarregaAnotacao")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    console.log('Carregado com Sucesso!');
+                    $('#tableAnotacao').html(data.TabelaAnotacao);
+                    $('#txtData').val('');
+                    $('#txtAnotacao').val('');
+                },
+                error: function () {
+                    alert('Erro na hora de Carregar as anotaçãoes');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            CarregaAnotacao();
+        });
+
+    </script>
+}

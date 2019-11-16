@@ -71,7 +71,7 @@ namespace EstudoProva1.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SetarViewBag(int id)
+        public JsonResult SetarSession(int id)
         {
             Session["IdEditar"] = id;
             return Json(new { }, JsonRequestBehavior.AllowGet);
@@ -176,7 +176,7 @@ namespace EstudoProva1.Controllers
             p.Cpf = form["txtCpfProprietario"];
             p.Sexo = form["selectSexoProprietario"];
             p.Ativo = ativo;
-
+            db.SaveChanges();
             if (Session["Carros"] != null)
             {
                 IList<Carro> listaC = new List<Carro>();
@@ -185,7 +185,6 @@ namespace EstudoProva1.Controllers
                 db.SaveChanges();
                 Session.Remove("Carros");
             }
-
 
             return Json(new
             { }, JsonRequestBehavior.AllowGet);

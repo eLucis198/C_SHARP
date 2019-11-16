@@ -64,7 +64,7 @@
 
         function Edit(id) {
             $.ajax({
-                url: '@Url.Action("SetarViewBag")',
+                url: '@Url.Action("SetarSession")',
                 type: 'POST',
                 data: {id:id},
                 success: function () {
