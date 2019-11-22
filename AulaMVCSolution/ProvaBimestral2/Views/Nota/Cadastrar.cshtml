@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Cadastrar Nota";
+}
+
+<h2>Cadastrar Nota</h2>
+
+<div>
+    <label for="txtNumeroNota">NÚMERO DA NOTA: </label>
+    <input type="text" id="txtNumeroNota" disabled />
+    <label for="selectCliente">CLIENTE: </label>
+    <select id="selectCliente"></select>
+
+    <label for="txtTotal">TOTAL: </label>
+    <input type="text" id="txtTotal" disabled />
+</div>
+
+<hr />
+
+<div>
+    <h2>ITENS DA NOTA</h2>
+    <input type="button" value="NOVO ITEM" id="btnNovoItem" onclick="btnNovoItemAction()"/>
+    <div id="tableItensDaNota"></div>
+</div>
+
+<hr />
+
+<div style="background-color:indianred; padding:10px" id="novoProduto" hidden>
+    <form id="formAdicionarProduto">
+        <label for="selectProduto">PRODUTO: </label>
+        <select id="selectProduto"></select>
+        <label for="txtQuantidade">QUANTIDADE: </label>
+        <input type="text" id="txtQuantidade"/>
+        <label for="txtValorUnitario">VALOR UNITÁRIO: </label>
+        <input type="text" id="txtValorUnitario"/>
+        <label for="txtValorTotal">VALOR TOTAL: </label>
+        <input type="text" id="txtValorTotal" disabled />
+        <input type="button" value="ADICIONAR" id="btnAdicionarProduto" onclick="AdicionarProduto()" />
+    </form>
+</div>
+
+@section _Nav{
+    @Html.Partial("_Nav")
+}
+
+@section scripts{
+    <script>
+
+        $('#selectProduto').change(function () {
+            PegaDadosProduto();
+        });
+        $('#txtQuantidade').keyup(function () {
+            $('#txtValorTotal').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val())));
+        });
+        $('#txtValorUnitario').keyup(function () {
+            $('#txtValorTotal').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val())));
+        });
+
+        function AdicionarProduto() {
+            var form = $('#formAdicionarProduto').serialize();
+            $.ajax({
+                url: '@Url.Action("AdicionarProduto")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    console.log('sucesso');
+                    $('#selectCliente').html(data.ListaClientes);
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            })
+        }
+
+        function PegaDadosProduto() {
+            $.ajax({
+                url: '@Url.Action("DadosProduto")',
+                type: 'POST',
+                data: { id: $('#selectProduto').val() },
+                success: function (data) {
+                    $('#txtQuantidade').val('1');
+                    $('#txtValorUnitario').val(data.valor);
+                    $('#txtValorTotal').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val())));
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+        function btnNovoItemAction() {
+            $('#novoProduto').show();
+            PegaDadosProduto();
+        }
+
+        function PesquisarClientes() {
+            $.ajax({
+                url: '@Url.Action("PesquisarClientes")',
+                type: 'GET',
+                success: function (data) {
+                    console.log('sucesso');
+                    $('#selectCliente').html(data.ListaClientes);
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            });
+        }
+
+        function PesquisarProdutos() {
+            $.ajax({
+                url: '@Url.Action("PesquisarProdutos")',
+                type: 'GET',
+                success: function (data) {
+                    console.log('sucesso');
+                    $('#selectProduto').html(data.ListaProdutos);
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            PesquisarClientes();
+            PesquisarProdutos();
+        });
+
+    </script>
+}

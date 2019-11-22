@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NotaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID_Cliente" />
+          </Key>
+          <Property Name="ID_Cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" />
+          <Property Name="CPF" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ItemNota">
+          <Key>
+            <PropertyRef Name="ID_ItemNota" />
+          </Key>
+          <Property Name="ID_ItemNota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Nota" Type="int" />
+          <Property Name="ID_Produto" Type="int" />
+          <Property Name="Quantidade" Type="int" />
+          <Property Name="Valor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ValorTotal" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Nota">
+          <Key>
+            <PropertyRef Name="ID_Nota" />
+          </Key>
+          <Property Name="ID_Nota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataNota" Type="date" />
+          <Property Name="ID_Cliente" Type="int" />
+          <Property Name="ValorNota" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="ID_Produto" />
+          </Key>
+          <Property Name="ID_Produto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="100" />
+          <Property Name="Valor" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <Association Name="FK__ItemNota__ID_Not__3E52440B">
+          <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+          <End Role="ItemNota" Type="Self.ItemNota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nota">
+              <PropertyRef Name="ID_Nota" />
+            </Principal>
+            <Dependent Role="ItemNota">
+              <PropertyRef Name="ID_Nota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemNota__ID_Pro__3F466844">
+          <End Role="Produto" Type="Self.Produto" Multiplicity="0..1" />
+          <End Role="ItemNota" Type="Self.ItemNota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="ID_Produto" />
+            </Principal>
+            <Dependent Role="ItemNota">
+              <PropertyRef Name="ID_Produto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Nota__ID_Cliente__3B75D760">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Nota" Type="Self.Nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Nota">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NotaModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemNota" EntityType="Self.ItemNota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nota" EntityType="Self.Nota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ItemNota__ID_Not__3E52440B" Association="Self.FK__ItemNota__ID_Not__3E52440B">
+            <End Role="Nota" EntitySet="Nota" />
+            <End Role="ItemNota" EntitySet="ItemNota" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemNota__ID_Pro__3F466844" Association="Self.FK__ItemNota__ID_Pro__3F466844">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="ItemNota" EntitySet="ItemNota" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Nota__ID_Cliente__3B75D760" Association="Self.FK__Nota__ID_Cliente__3B75D760">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Nota" EntitySet="Nota" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NotaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="ID_Cliente" />
+          </Key>
+          <Property Name="ID_Cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CPF" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Nota" Relationship="Self.FK__Nota__ID_Cliente__3B75D760" FromRole="Cliente" ToRole="Nota" />
+        </EntityType>
+        <EntityType Name="ItemNota">
+          <Key>
+            <PropertyRef Name="ID_ItemNota" />
+          </Key>
+          <Property Name="ID_ItemNota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Nota" Type="Int32" />
+          <Property Name="ID_Produto" Type="Int32" />
+          <Property Name="Quantidade" Type="Int32" />
+          <Property Name="Valor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ValorTotal" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Nota" Relationship="Self.FK__ItemNota__ID_Not__3E52440B" FromRole="ItemNota" ToRole="Nota" />
+          <NavigationProperty Name="Produto" Relationship="Self.FK__ItemNota__ID_Pro__3F466844" FromRole="ItemNota" ToRole="Produto" />
+        </EntityType>
+        <EntityType Name="Nota">
+          <Key>
+            <PropertyRef Name="ID_Nota" />
+          </Key>
+          <Property Name="ID_Nota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataNota" Type="DateTime" Precision="0" />
+          <Property Name="ID_Cliente" Type="Int32" />
+          <Property Name="ValorNota" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Nota__ID_Cliente__3B75D760" FromRole="Nota" ToRole="Cliente" />
+          <NavigationProperty Name="ItemNota" Relationship="Self.FK__ItemNota__ID_Not__3E52440B" FromRole="Nota" ToRole="ItemNota" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="ID_Produto" />
+          </Key>
+          <Property Name="ID_Produto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Valor" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="ItemNota" Relationship="Self.FK__ItemNota__ID_Pro__3F466844" FromRole="Produto" ToRole="ItemNota" />
+        </EntityType>
+        <Association Name="FK__Nota__ID_Cliente__3B75D760">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Nota" Type="Self.Nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="ID_Cliente" />
+            </Principal>
+            <Dependent Role="Nota">
+              <PropertyRef Name="ID_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemNota__ID_Not__3E52440B">
+          <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+          <End Role="ItemNota" Type="Self.ItemNota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nota">
+              <PropertyRef Name="ID_Nota" />
+            </Principal>
+            <Dependent Role="ItemNota">
+              <PropertyRef Name="ID_Nota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ItemNota__ID_Pro__3F466844">
+          <End Role="Produto" Type="Self.Produto" Multiplicity="0..1" />
+          <End Role="ItemNota" Type="Self.ItemNota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produto">
+              <PropertyRef Name="ID_Produto" />
+            </Principal>
+            <Dependent Role="ItemNota">
+              <PropertyRef Name="ID_Produto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NotaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="ItemNota" EntityType="Self.ItemNota" />
+          <EntitySet Name="Nota" EntityType="Self.Nota" />
+          <EntitySet Name="Produto" EntityType="Self.Produto" />
+          <AssociationSet Name="FK__Nota__ID_Cliente__3B75D760" Association="Self.FK__Nota__ID_Cliente__3B75D760">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Nota" EntitySet="Nota" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemNota__ID_Not__3E52440B" Association="Self.FK__ItemNota__ID_Not__3E52440B">
+            <End Role="Nota" EntitySet="Nota" />
+            <End Role="ItemNota" EntitySet="ItemNota" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ItemNota__ID_Pro__3F466844" Association="Self.FK__ItemNota__ID_Pro__3F466844">
+            <End Role="Produto" EntitySet="Produto" />
+            <End Role="ItemNota" EntitySet="ItemNota" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NotaModelStoreContainer" CdmEntityContainer="NotaEntities">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="NotaModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="CPF" ColumnName="CPF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemNota">
+            <EntityTypeMapping TypeName="NotaModel.ItemNota">
+              <MappingFragment StoreEntitySet="ItemNota">
+                <ScalarProperty Name="ID_ItemNota" ColumnName="ID_ItemNota" />
+                <ScalarProperty Name="ID_Nota" ColumnName="ID_Nota" />
+                <ScalarProperty Name="ID_Produto" ColumnName="ID_Produto" />
+                <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="ValorTotal" ColumnName="ValorTotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nota">
+            <EntityTypeMapping TypeName="NotaModel.Nota">
+              <MappingFragment StoreEntitySet="Nota">
+                <ScalarProperty Name="ID_Nota" ColumnName="ID_Nota" />
+                <ScalarProperty Name="DataNota" ColumnName="DataNota" />
+                <ScalarProperty Name="ID_Cliente" ColumnName="ID_Cliente" />
+                <ScalarProperty Name="ValorNota" ColumnName="ValorNota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produto">
+            <EntityTypeMapping TypeName="NotaModel.Produto">
+              <MappingFragment StoreEntitySet="Produto">
+                <ScalarProperty Name="ID_Produto" ColumnName="ID_Produto" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

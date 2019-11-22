@@ -1,0 +1,46 @@
+﻿@model ProvaBimestral2.Models.Nota
+
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<h2>Detalhes</h2>
+
+
+<label for="txtIdNota">NR NOTA: </label>
+<input id="txtIdNota" value="@Model.ID_Nota" />
+<br />
+<label for="txtDataNota">DATA: </label>
+<input id="txtDataNota" value="@Model.DataNota" />
+<br />
+<label for="txtClienteNota">CLIENTE: </label>
+<input id="txtClienteNota" value="@Model.Cliente.Nome" />
+<br />
+<label for="txtValor">CLIENTE: </label>
+<input id="txtValor" value="@Model.ValorNota" />
+
+
+<hr />
+<table class="table table-bordered">
+    <tr>
+        <td>PRODUTO</td>
+        <td>QUANTIDADE</td>
+        <td>VALOR UNI</td>
+        <td>TOTAL</td>
+    </tr>
+    @foreach (var item in Model.ItemNota)
+    {
+        <tr>
+            <td>@item.Produto.Descricao</td>
+            <td>@item.Quantidade</td>
+            <td>@item.Valor</td>
+            <td>@item.ValorTotal</td>
+        </tr>
+    }
+</table>
+
+@section _Nav{
+    @Html.Partial("_Nav")
+}
+
+

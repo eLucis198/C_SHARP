@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Cadastrar Cliente";
+}
+
+<h2>Cadastrar Cliente</h2>
+
+<form id="formCliente">
+    <label for="">Nome: </label>
+    <input type="text" id="txtNomeCliente" name="txtNomeCliente" />
+    <label for="">CPF: </label>
+    <input type="text" id="txtCpfCliente" name="txtCpfCliente" />
+    <input type="button" value="CADASTRAR" id="btnCadastrarCliente" onclick="CadastrarCliente()" />
+</form>
+
+<div id="tableClientes"></div>
+
+@section _Nav{
+    @Html.Partial("_Nav")
+}
+
+@section scripts{
+    <script>
+        function PesquisarLista() {
+            $.ajax({
+                url: '@Url.Action("PesquisarCliente")',
+                type: 'GET',
+                success: function (data) {
+                    $('#tableClientes').html(data.ListaClientes);
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            })
+        }
+
+        function CadastrarCliente() {
+            var form = $('#formCliente').serialize();
+            $.ajax({
+                url: '@Url.Action("CadastrarCliente")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    $('#txtNomeCliente').val('');
+                    $('#txtCpfCliente').val('');
+                    PesquisarLista();
+                    console.log('sucesso');
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            PesquisarLista();
+        });
+    </script>
+}

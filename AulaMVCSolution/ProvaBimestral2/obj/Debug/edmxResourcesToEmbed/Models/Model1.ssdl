@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NotaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="ID_Cliente" />
+    </Key>
+    <Property Name="ID_Cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="nvarchar" MaxLength="100" />
+    <Property Name="CPF" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ItemNota">
+    <Key>
+      <PropertyRef Name="ID_ItemNota" />
+    </Key>
+    <Property Name="ID_ItemNota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Nota" Type="int" />
+    <Property Name="ID_Produto" Type="int" />
+    <Property Name="Quantidade" Type="int" />
+    <Property Name="Valor" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ValorTotal" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Nota">
+    <Key>
+      <PropertyRef Name="ID_Nota" />
+    </Key>
+    <Property Name="ID_Nota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DataNota" Type="date" />
+    <Property Name="ID_Cliente" Type="int" />
+    <Property Name="ValorNota" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Produto">
+    <Key>
+      <PropertyRef Name="ID_Produto" />
+    </Key>
+    <Property Name="ID_Produto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descricao" Type="nvarchar" MaxLength="100" />
+    <Property Name="Valor" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <Association Name="FK__ItemNota__ID_Not__3E52440B">
+    <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+    <End Role="ItemNota" Type="Self.ItemNota" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nota">
+        <PropertyRef Name="ID_Nota" />
+      </Principal>
+      <Dependent Role="ItemNota">
+        <PropertyRef Name="ID_Nota" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemNota__ID_Pro__3F466844">
+    <End Role="Produto" Type="Self.Produto" Multiplicity="0..1" />
+    <End Role="ItemNota" Type="Self.ItemNota" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produto">
+        <PropertyRef Name="ID_Produto" />
+      </Principal>
+      <Dependent Role="ItemNota">
+        <PropertyRef Name="ID_Produto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Nota__ID_Cliente__3B75D760">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+    <End Role="Nota" Type="Self.Nota" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="ID_Cliente" />
+      </Principal>
+      <Dependent Role="Nota">
+        <PropertyRef Name="ID_Cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NotaModelStoreContainer">
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemNota" EntityType="Self.ItemNota" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Nota" EntityType="Self.Nota" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__ItemNota__ID_Not__3E52440B" Association="Self.FK__ItemNota__ID_Not__3E52440B">
+      <End Role="Nota" EntitySet="Nota" />
+      <End Role="ItemNota" EntitySet="ItemNota" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemNota__ID_Pro__3F466844" Association="Self.FK__ItemNota__ID_Pro__3F466844">
+      <End Role="Produto" EntitySet="Produto" />
+      <End Role="ItemNota" EntitySet="ItemNota" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Nota__ID_Cliente__3B75D760" Association="Self.FK__Nota__ID_Cliente__3B75D760">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Nota" EntitySet="Nota" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

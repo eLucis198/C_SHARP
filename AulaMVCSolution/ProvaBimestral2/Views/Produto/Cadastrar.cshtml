@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Cadastrar Produto";
+}
+
+<h2>Cadastrar Produto</h2>
+
+<form id="formProduto">
+    <label for="">Descrição: </label>
+    <input type="text" id="txtDescricaoProduto" name="txtDescricaoProduto" />
+    <label for="">Valor: </label>
+    <input type="text" id="txtValorProduto" name="txtValorProduto" />
+    <input type="button" value="CADASTRAR" id="btnCadastrarProduto" onclick="CadastrarProduto()" />
+</form>
+
+<div id="tableProdutos"></div>
+
+@section _Nav{
+    @Html.Partial("_Nav")
+}
+
+@section scripts{
+    <script>
+        function PesquisarLista() {
+            $.ajax({
+                url: '@Url.Action("PesquisarProduto")',
+                type: 'GET',
+                success: function (data) {
+                    $('#tableProdutos').html(data.ListaProdutos);
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            })
+        }
+
+        function CadastrarProduto() {
+            var form = $('#formProduto').serialize();
+            $.ajax({
+                url: '@Url.Action("CadastrarProduto")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    $('#txtDescricaoProduto').val('');
+                    $('#txtValorProduto').val('');
+                    PesquisarLista();
+                    console.log('sucesso');
+                },
+                error: function (data) {
+                    console.log('erro');
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            PesquisarLista();
+        });
+    </script>
+}

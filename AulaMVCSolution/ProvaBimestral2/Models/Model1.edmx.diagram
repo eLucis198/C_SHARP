@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6ffc3f020f3e4d2b970fae6d99bb3aaf" Name="Diagram1">
+        <EntityTypeShape EntityType="NotaModel.Cliente" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotaModel.ItemNota" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotaModel.Nota" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotaModel.Produto" Width="1.5" PointX="7.25" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="NotaModel.FK__Nota__ID_Cliente__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="NotaModel.FK__ItemNota__ID_Not__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="NotaModel.FK__ItemNota__ID_Pro__3F466844" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

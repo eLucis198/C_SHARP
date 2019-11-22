@@ -21,7 +21,7 @@
                 data: {cep:$('#txtCep').val()},
                 success: function (data) {
                     var end = JSON.stringify(data);
-                    alert(end);
+                    console.log(end.logradouro);
                 },
                 error: function (data) {
                     console.log(data);

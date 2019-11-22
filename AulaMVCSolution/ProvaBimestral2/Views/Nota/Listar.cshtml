@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Listar Notas";
+}
+
+<h2>Listar Notas</h2>
+
+<div id="tableNotas"></div>
+
+
+@section _Nav{
+    @Html.Partial("_Nav")
+}
+
+@section scripts{
+    <script>
+        function MostraDetalhes(id) {
+            $.ajax({
+                url: '@Url.Action("SetaIdDetalhes")',
+                type: 'POST',
+                data: { id: id },
+                success: function () {
+                    var targetUrl = "/Nota/Detalhes";
+                    window.location.href = targetUrl;
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        function ListaNotas() {
+            $.ajax({
+                url: '@Url.Action("ListaNotas")',
+                type: 'GET',
+                success: function (data) {
+                    $('#tableNotas').html(data.ListaNotas);
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            ListaNotas();
+        });
+    </script>
+}
