@@ -5,39 +5,43 @@
 
 <h2>Cadastrar Nota</h2>
 
-<div>
-    <label for="txtNumeroNota">NÚMERO DA NOTA: </label>
-    <input type="text" id="txtNumeroNota" disabled />
-    <label for="selectCliente">CLIENTE: </label>
-    <select id="selectCliente"></select>
+<form class="form-horizontal" id="formNota">
+    <div style="background-color:cornflowerblue; padding:10px">
 
-    <label for="txtTotal">TOTAL: </label>
-    <input type="text" id="txtTotal" disabled />
-</div>
+        <label for="selectCliente">CLIENTE: </label>
+        <select id="selectCliente" name="selectCliente"></select>
 
-<hr />
+        <label for="txtTotal">TOTAL: </label>
+        <input id="txtTotalNota" name="txtTotalNota" type="number" step=".01" min="0" readonly="readonly" />
 
-<div>
-    <h2>ITENS DA NOTA</h2>
-    <input type="button" value="NOVO ITEM" id="btnNovoItem" onclick="btnNovoItemAction()"/>
-    <div id="tableItensDaNota"></div>
-</div>
+    </div>
 
-<hr />
+    <hr />
 
-<div style="background-color:indianred; padding:10px" id="novoProduto" hidden>
-    <form id="formAdicionarProduto">
+    <div>
+        <h2>ITENS DA NOTA</h2>
+        <div id="tableItens"></div>
+        <input type="button" value="NOVO ITEM" id="btnNovoItem" onclick="btnNovoItemAction()" />
+        <div id="tableItensDaNota"></div>
+    </div>
+
+    <div style="background-color:cornflowerblue; padding:10px; margin:10px" id="divAdicionar" name="divAdicionar" class="form-horizontal" hidden>
         <label for="selectProduto">PRODUTO: </label>
-        <select id="selectProduto"></select>
+        <select id="selectProduto" name="selectProduto"></select>
         <label for="txtQuantidade">QUANTIDADE: </label>
-        <input type="text" id="txtQuantidade"/>
+        <input type="number" min="0" id="txtQuantidade" name="txtQuantidade" />
         <label for="txtValorUnitario">VALOR UNITÁRIO: </label>
-        <input type="text" id="txtValorUnitario"/>
+        <input type="number" step=".01" min="0" id="txtValorUnitario" name="txtValorUnitario" />
         <label for="txtValorTotal">VALOR TOTAL: </label>
-        <input type="text" id="txtValorTotal" disabled />
-        <input type="button" value="ADICIONAR" id="btnAdicionarProduto" onclick="AdicionarProduto()" />
-    </form>
-</div>
+        <input type="number" min="0" step=".01" id="txtValorTotal" name="txtValorTotal" readonly="readonly" />
+        <input type="button" value="ADICIONAR" id="btnAdicionarProduto" name="btnAdicionarProduto" onclick="AdicionarProduto()" />
+    </div>
+
+    <hr />
+
+    <input type="button" value="CANCELAR" />
+    <input type="button" value="SALVAR" onclick="SalvarNota()" />
+</form>
 
 @section _Nav{
     @Html.Partial("_Nav")
@@ -46,25 +50,42 @@
 @section scripts{
     <script>
 
+        function SalvarNota() {
+            var form = $('#formNota').serialize();
+            $.ajax({
+                url: '@Url.Action("SalvarNota")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    var targetUrl = "/Nota/Listar";
+                    window.location.href = targetUrl;
+                }, error: function () {}
+            });
+        }
+
         $('#selectProduto').change(function () {
             PegaDadosProduto();
         });
-        $('#txtQuantidade').keyup(function () {
-            $('#txtValorTotal').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val())));
+        $('#txtQuantidade').change(function () {
+            $('#txtValorTotal').val((parseFloat($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val()))).toFixed(2));
         });
-        $('#txtValorUnitario').keyup(function () {
-            $('#txtValorTotal').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val())));
+        $('#txtValorUnitario').change(function () {
+            $('#txtValorUnitario').val(parseFloat($('#txtValorUnitario').val()).toFixed(2));
+            $('#txtValorTotal').val(parseFloat(($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val()))).toFixed(2));
         });
 
         function AdicionarProduto() {
-            var form = $('#formAdicionarProduto').serialize();
+            var form = $('#formNota').serialize();
             $.ajax({
-                url: '@Url.Action("AdicionarProduto")',
+                url: '@Url.Action("AdicionarProdutoNota")',
                 type: 'POST',
                 data: form,
                 success: function (data) {
                     console.log('sucesso');
-                    $('#selectCliente').html(data.ListaClientes);
+                    $('#tableItens').html(data.ListaItensNota);
+                    $('#divAdicionar').hide();
+                    console.log(data.ValorNota);
+                    $('#txtTotalNota').val((data.ValorNota).toFixed(2));
                 },
                 error: function (data) {
                     console.log('erro');
@@ -78,9 +99,9 @@
                 type: 'POST',
                 data: { id: $('#selectProduto').val() },
                 success: function (data) {
-                    $('#txtQuantidade').val('1');
-                    $('#txtValorUnitario').val(data.valor);
-                    $('#txtValorTotal').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val())));
+                    $('#txtQuantidade').val(1);
+                    $('#txtValorUnitario').val((parseInt(data.valor)).toFixed(2));
+                    $('#txtValorTotal').val(parseInt(($('#txtQuantidade').val() * parseFloat($('#txtValorUnitario').val()))).toFixed(2));
                 },
                 error: function (data) {
 
@@ -89,7 +110,7 @@
         }
 
         function btnNovoItemAction() {
-            $('#novoProduto').show();
+            $('#divAdicionar').show();
             PegaDadosProduto();
         }
 
@@ -118,6 +139,18 @@
                 error: function (data) {
                     console.log('erro');
                 }
+            });
+        }
+
+        function PegaNumeroNota() {
+            $.ajax({
+                url: '@Url.Action("PegaNumeroNota")',
+                type: 'GET',
+                success: function (data) {
+                    console.log('sucesso');
+                    $('#txtNumeroNota').val(data.NumeroNota);
+                },
+                error: function () {}
             });
         }
 

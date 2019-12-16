@@ -8,16 +8,16 @@
 
 
 <label for="txtIdNota">NR NOTA: </label>
-<input id="txtIdNota" value="@Model.ID_Nota" />
+<input id="txtIdNota" value="@Model.ID_Nota" readonly/>
 <br />
 <label for="txtDataNota">DATA: </label>
-<input id="txtDataNota" value="@Model.DataNota" />
+<input id="txtDataNota" value="@Model.DataNota.Value.ToShortDateString()" readonly />
 <br />
 <label for="txtClienteNota">CLIENTE: </label>
-<input id="txtClienteNota" value="@Model.Cliente.Nome" />
+<input id="txtClienteNota" value="@Model.Cliente.Nome" readonly/>
 <br />
-<label for="txtValor">CLIENTE: </label>
-<input id="txtValor" value="@Model.ValorNota" />
+<label for="txtValor">VALOR DA NOTA: </label>
+<input id="txtValor" value="@Model.ValorNota" readonly />
 
 
 <hr />
